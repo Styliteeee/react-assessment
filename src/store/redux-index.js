@@ -1,30 +1,31 @@
-import { createStore } from 'redux';
+import { createStore } from "redux";
 
-const counterReducer = (state = { email: '', password: '', isToggle: false }, action) => {
-    if(action.type === 'ADD_INFO') {
-        console.log('email: ' + action.email + ", password: " + action.password);
-        return {
-            email: '', 
-            password: ''
-        };
-    }
+const counterReducer = (
+  state = { isToggle: false, employeeList: [] },
+  action
+) => {
+  if (action.type === "TOGGLE_FORM_ON") {
+    return {
+      isToggle: action.setToggle,
+    };
+  }
 
-    if(action.type === 'TOGGLE_FORM_ON') {
-        console.log(action.setToggle)
-        return {
-            isToggle: action.setToggle
-        }
-    }
+  if (action.type === "TOGGLE_FORM_OFF") {
+    return {
+      isToggle: action.setToggle,
+    };
+  }
 
-    if(action.type === 'TOGGLE_FORM_OFF') {
-        console.log(action.setToggle)
-        return {
-            isToggle: action.setToggle
-        }
-    }
+  if (action.type === "IMPORT_EMPLOYEE") {
+    console.log(action.setList);
+    return {
+      employeeList: action.setList,
+    };
+  }
 
-    return state;
-}
+  return state;
+};
+
 
 const store = createStore(counterReducer);
 

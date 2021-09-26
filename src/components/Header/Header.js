@@ -17,7 +17,7 @@ const Header = (props) => {
           />
           Accenture Workbook
         </a>
-        <span class="navbar-text">Made by Christian Balondo</span>
+        <span className="navbar-text">Made by Christian Balondo</span>
       </div>
     </nav>
   );

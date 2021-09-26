@@ -1,10 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import style from "./EmployeeForms.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const EmployeeForms = () => {
   const isToggle = useSelector((state) => state.isToggle);
   const dispatch = useDispatch();
+  const [employeeList, setEmployeeList] = useState("");
+  
 
   const onAddNewEmployeeHandler = () => {
     dispatch({
@@ -14,6 +16,28 @@ const EmployeeForms = () => {
 
     console.log(isToggle);
   };
+
+  const fetchEmployeesHandler = useCallback(async () => {
+    const response = await fetch('https://swapi.dev/api/films/')
+    const data = await response.json();
+    const transformList = data.results.map((empData) => {
+        return {
+          id: empData.episode_id,
+          title: empData.title,
+          intro: empData.opening_crawl
+        };
+      });
+    dispatch({
+        type: "IMPORT_EMPLOYEE",
+        setList: transformList
+    })
+  },[])
+
+  useEffect(() => {
+    setEmployeeList("try", () => console.log(employeeList));
+    fetchEmployeesHandler();
+  }, []);
+  
 
   const onAddCancelEmployeeHandler = () => {
     dispatch({

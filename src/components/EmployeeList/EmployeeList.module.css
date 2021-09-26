@@ -1,0 +1,12 @@
+.setSpacing {
+    margin-top: 2rem;
+}
+
+.changeBackground {
+    background-color: rgb(33, 37, 41);
+    border-radius: 20px;
+}
+
+.changeFontColor {
+    color: white;
+}
