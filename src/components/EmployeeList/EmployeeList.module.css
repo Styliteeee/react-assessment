@@ -10,3 +10,7 @@
 .changeFontColor {
     color: white;
 }
+
+.setButtonSpace {
+    margin-left: 1rem;
+}

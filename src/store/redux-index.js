@@ -1,32 +1,29 @@
-import { createStore } from "redux";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const counterReducer = (
-  state = { isToggle: false, employeeList: [] },
-  action
-) => {
-  if (action.type === "TOGGLE_FORM_ON") {
-    return {
-      isToggle: action.setToggle,
-    };
-  }
+const formSlice = createSlice({
+    name: 'form_actions',
+    initialState: {isToggle: false, employeeList: [], updateInfo: []},
+    reducers: {
+        toggleFormOn(state, action) {
+            state.isToggle = action.payload;
+        },
+        toggleFormOff(state, action) {
+            state.isToggle = action.payload;
+        },
+        importEmployee(state, action) {
+            state.employeeList = action.payload;
+        },
+        updateEmployee(state, action) {
+            state.updateInfo = action.payload;
+            console.log(state.updateInfo);
+        }
+    }
+});
 
-  if (action.type === "TOGGLE_FORM_OFF") {
-    return {
-      isToggle: action.setToggle,
-    };
-  }
+const store = configureStore({
+    //reducer: { toggle_form: counterSlice.reducer }
+    reducer: formSlice.reducer
+});
 
-  if (action.type === "IMPORT_EMPLOYEE") {
-    console.log(action.setList);
-    return {
-      employeeList: action.setList,
-    };
-  }
-
-  return state;
-};
-
-
-const store = createStore(counterReducer);
-
+export const formActions = formSlice.actions;
 export default store;
