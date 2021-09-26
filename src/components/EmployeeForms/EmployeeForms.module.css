@@ -1,0 +1,22 @@
+.setSpacing {
+    margin-top: 2rem;
+}
+
+.rowSpacing {
+    margin-bottom: 1.5rem;
+}
+
+.changeBackground {
+    background-color: rgb(33, 37, 41);
+    border-radius: 20px;
+}
+
+.changeFontColor {
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.buttonSpacing {
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+}

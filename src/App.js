@@ -1,13 +1,14 @@
 import "./App.css";
 import React from "react";
 import Header from "./components/Header/Header";
-import TryComponent from "./components/TryComponent/TryComponent";
+import EmployeeForms from "./components/EmployeeForms/EmployeeForms";
+
 
 function App() {
   return (
     <React.Fragment>
       <Header />
-      <TryComponent />
+      <EmployeeForms />
     </React.Fragment>
   );
 }
