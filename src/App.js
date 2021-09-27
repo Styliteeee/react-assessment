@@ -7,11 +7,14 @@ import { useDispatch } from "react-redux";
 import { formActions } from "./store/redux-index";
 
 
+
 function App() {
   const dispatch = useDispatch();
 
+  //let resource = 'https://react-assessment.free.beeceptor.com/employeedata';
+
   const fetchEmployeesHandler = async () => {
-    const response = await fetch('https://employeefakedata.free.beeceptor.com/employeefakeinfo')
+    const response = await fetch('');
     const data = await response.json();
     const transformList = data.results.map((empData) => {
         return {
@@ -22,7 +25,7 @@ function App() {
           lastName: empData.lname,
           email: empData.email,
           e_id: empData.enterpriseID,
-          bday: empData.birthday
+          bday: empData.bday
           
 
           // key: Math.random().toString(),
@@ -30,9 +33,9 @@ function App() {
           // title: empData.title
         };
       });
+      console.log(transformList);
     dispatch(formActions.importEmployee(transformList));
     dispatch(formActions.viewEmployee({}));
-    dispatch(formActions.setButtonText(''));
   }
 
   useEffect(() => {

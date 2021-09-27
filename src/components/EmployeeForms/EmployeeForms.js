@@ -12,7 +12,6 @@ const EmployeeForms = () => {
   const [validateEmail, setvalidateEmail] = useState(true);
   const [validateBirthday, setvvalidateBirthday] = useState(true);
   const [validateEID, setvalidateEID] = useState(true);
-  const employeeData = useSelector((state) => state.updateList); 
   const toggleUpdate = useSelector((state) => state.toggleUpdate);
 
   const fname = useRef();
@@ -35,6 +34,7 @@ const EmployeeForms = () => {
 
   const onAddCancelEmployeeHandler = () => {
     dispatch(formActions.toggleFormOff(false));
+    dispatch(formActions.toggleUpdateButton(false));
   };
 
   const onSaveEmployeeHandler = (event) => {
@@ -51,6 +51,7 @@ const EmployeeForms = () => {
       return;
     } else {
       if(event.target.innerText === 'Save') {
+        console.log(bday.current.value)
         dispatch(
           formActions.addNewEmployee({
             key: Math.random().toString(),
@@ -88,21 +89,20 @@ const EmployeeForms = () => {
     }
   };
 
-  const onChangeButtonHandler = () => {
-    console.log("this is cak")
-        fname.current.value = employeeData.firstName;
-        mname.current.value = employeeData.middleName
-        lname.current.value = employeeData.lastName;
-        email.current.value = employeeData.email;
-        e_id.current.value = employeeData.e_id;
-        bday.current.value = employeeData.bday;
-  }
+  // const onChangeButtonHandler = () => {
+  //   console.log("this is cak")
+  //       fname.current.value = employeeData.firstName;
+  //       mname.current.value = employeeData.middleName
+  //       lname.current.value = employeeData.lastName;
+  //       email.current.value = employeeData.email;
+  //       e_id.current.value = employeeData.e_id;
+  //       bday.current.value = employeeData.bday;
+  // }
 
   const fnameValidationChecker = (event) => {
     if (event.target.value === "") {
       setValidatefName(false);
     } else setValidatefName(true);
-
     fname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
   };
 
@@ -270,7 +270,6 @@ const EmployeeForms = () => {
                   type="button"
                   onClick={onSaveEmployeeHandler}
                   ref={button}
-                  onChange={onChangeButtonHandler}
                   className={`${"btn btn-primary"} ${style.buttonSpacing}`}
                 >{!toggleUpdate && "Save"}
                   {toggleUpdate && "Update Employee"}

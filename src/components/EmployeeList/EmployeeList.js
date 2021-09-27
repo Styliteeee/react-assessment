@@ -30,6 +30,7 @@ const EmployeeList = () => {
       })
       .indexOf(event.target.id);
 
+      console.log(employeeList)
     dispatch(formActions.viewToggle(true));
     dispatch(formActions.viewEmployee(employeeList[indexNum]));
   };
@@ -41,6 +42,7 @@ const EmployeeList = () => {
       })
       .indexOf(event.target.id);
     dispatch(formActions.deleteEmployee(employeeList[indexNum].id));
+    dispatch(formActions.toggleUpdateButton(false));
   };
 
   return (
