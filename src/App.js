@@ -6,6 +6,7 @@ import EmployeeList from "./components/EmployeeList/EmployeeList";
 import { useDispatch } from "react-redux";
 import { formActions } from "./store/redux-index";
 
+
 function App() {
   const dispatch = useDispatch();
 
@@ -30,6 +31,8 @@ function App() {
         };
       });
     dispatch(formActions.importEmployee(transformList));
+    dispatch(formActions.viewEmployee({}));
+    dispatch(formActions.setButtonText(''));
   }
 
   useEffect(() => {

@@ -9,6 +9,7 @@ const crudSlice = createSlice({
     isError: false,
     isView: false,
     noInput: false,
+    toggleUpdate: false,
     getID: ""
   },
   reducers: {
@@ -32,9 +33,8 @@ const crudSlice = createSlice({
     },
 
     deleteEmployee: (state, action) => {
-        void(state.getID = action.payload);
-        console.log(state.getID);
-        return { ...state, employeeList: state.employeeList.splice(state.getID, 1)}
+        const emp = state.employeeList.filter(worker => worker.id !== action.payload);
+        return { ...state, employeeList: [...emp] };
     },
 
     viewEmployee: (state, action) => {
@@ -64,6 +64,10 @@ const crudSlice = createSlice({
     toggleInputError: (state, action) => {
         void(state.noInput = action.payload)
     },
+
+    toggleUpdateButton: (state, action) => {
+      void(state.toggleUpdate = action.payload)
+    }
   },
 });
 

@@ -3,7 +3,7 @@ import style from "./Header.module.css";
 
 const Header = (props) => {
   return (
-    <nav className="navbar navbar-dark bg-dark">
+    <nav className="navbar fixed-top navbar-dark bg-dark">
       <div className="container-fluid">
         <h4 className="navbar-brand">
           <img

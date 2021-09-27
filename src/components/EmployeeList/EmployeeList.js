@@ -3,17 +3,25 @@ import style from "./EmployeeList.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { formActions } from "../../store/redux-index";
 
-const EmployeeList = (props) => {
+const EmployeeList = () => {
   const employeeList = useSelector((state) => state.employeeList);
+  const isToggle = useSelector((state) => state.isToggle);
   const dispatch = useDispatch();
 
-  // const updateHandler = (event) => {
-  //   if (toggling === false) {
-  //     dispatch(formActions.toggleError(true))
-  //   } else {
-
-  //   }
-  // };
+  const updateHandler = (event) => {
+    if (isToggle) {
+      const indexNum = employeeList
+        .map((e) => {
+          return e.id;
+        })
+        .indexOf(event.target.id);
+      dispatch(formActions.getIDforUpdate(indexNum));
+      dispatch(formActions.toggleUpdateButton(true));
+      dispatch(formActions.viewEmployee(employeeList[indexNum]));
+    } else {
+      window.alert("Open first the form to update!");
+    }
+  };
 
   const viewEmployeeDetails = (event) => {
     const indexNum = employeeList
@@ -32,7 +40,7 @@ const EmployeeList = (props) => {
         return e.id;
       })
       .indexOf(event.target.id);
-      dispatch(formActions.deleteEmployee(indexNum));
+    dispatch(formActions.deleteEmployee(employeeList[indexNum].id));
   };
 
   return (
@@ -79,32 +87,38 @@ const EmployeeList = (props) => {
                     </div>
 
                     <span>
-                      <div className="container">
-                        <div className="row">
-                          <div className="col">
-                            <button
-                              className={`${"btn btn-success"} ${
-                                style.setButtonSpace
-                              }`}
-                              onClick={viewEmployeeDetails}
-                              id={data.id}
-                            >
-                              View
-                            </button>
-                          </div>
-                          <div className="col">
-                            <button
-                              className={`${"btn btn-danger"} ${
-                                style.setButtonSpace
-                              }`}
-                              id={data.id}
-                              onClick={deleteHandler}
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <button
+                        className={`${"btn btn-success"} ${
+                          style.setButtonSpace
+                        }`}
+                        onClick={viewEmployeeDetails}
+                        id={data.id}
+                      >
+                        View
+                      </button>
+                    </span>
+                    <span>
+                      <button
+                        className={`${"btn btn-primary"} ${
+                          style.setButtonSpace
+                        }`}
+                        onClick={updateHandler}
+                        id={data.id}
+                      >
+                        Update
+                      </button>
+                    </span>
+
+                    <span>
+                      <button
+                        className={`${"btn btn-danger"} ${
+                          style.setButtonSpace
+                        }`}
+                        id={data.id}
+                        onClick={deleteHandler}
+                      >
+                        Delete
+                      </button>
                     </span>
                   </li>
                 );

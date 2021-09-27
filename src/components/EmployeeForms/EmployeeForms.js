@@ -5,12 +5,15 @@ import { formActions } from "../../store/redux-index";
 import {ErrorModal, ViewEmployee, NoInputErrorModal} from "../UI/ErrorModal/ErrorModal";
 
 const EmployeeForms = () => {
+  const dispatch = useDispatch();
   const [validatefName, setValidatefName] = useState(true);
   const [validatemName, setvalidatemName] = useState(true);
   const [validatelName, setvalidatelName] = useState(true);
   const [validateEmail, setvalidateEmail] = useState(true);
   const [validateBirthday, setvvalidateBirthday] = useState(true);
   const [validateEID, setvalidateEID] = useState(true);
+  const employeeData = useSelector((state) => state.updateList); 
+  const toggleUpdate = useSelector((state) => state.toggleUpdate);
 
   const fname = useRef();
   const mname = useRef();
@@ -18,14 +21,14 @@ const EmployeeForms = () => {
   const e_id = useRef();
   const bday = useRef();
   const email = useRef();
+  const button = useRef();
 
   const isToggle = useSelector((state) => state.isToggle);
   const isError = useSelector((state) => state.isError);
   const isView = useSelector((state) => state.isView);
   const inputError = useSelector((state) =>state.noInput);
+  const getID =useSelector((state) => state.getID);
   
-  const dispatch = useDispatch();
-
   const onAddNewEmployeeHandler = () => {
     dispatch(formActions.toggleFormOn(true));
   };
@@ -34,7 +37,7 @@ const EmployeeForms = () => {
     dispatch(formActions.toggleFormOff(false));
   };
 
-  const onSaveEmployeeHandler = () => {
+  const onSaveEmployeeHandler = (event) => {
     if (
       fname.current.value === "" ||
       mname.current.value === "" ||
@@ -47,60 +50,90 @@ const EmployeeForms = () => {
       dispatch(formActions.toggleInputError(true))
       return;
     } else {
-      dispatch(
-        formActions.addNewEmployee({
-          key: Math.random().toString(),
-          id: Math.random().toString(),
-          firstName: fname.current.value,
-          middleName: mname.current.value,
-          lastName: lname.current.value,
-          email: email.current.value,
-          e_id: e_id.current.value,
-          bday: bday.current.value,
-          // id: num,
-          // title: fname.current.value,
-        })
-      );
+      if(event.target.innerText === 'Save') {
+        dispatch(
+          formActions.addNewEmployee({
+            key: Math.random().toString(),
+            id: Math.random().toString(),
+            firstName: fname.current.value,
+            middleName: mname.current.value,
+            lastName: lname.current.value,
+            email: email.current.value,
+            e_id: e_id.current.value,
+            bday: bday.current.value,
+            // id: num,
+            // title: fname.current.value,
+          })
+        );
 
-      dispatch(formActions.toggleError(true));
+        
+  
+        dispatch(formActions.toggleError(true));
+  
+        fname.current.value = "";
+        mname.current.value = "";
+        lname.current.value = "";
+        email.current.value = "";
+        e_id.current.value = "";
+        bday.current.value = "";
 
-      fname.current.value = "";
-      mname.current.value = "";
-      lname.current.value = "";
-      email.current.value = "";
-      e_id.current.value = "";
-      bday.current.value = "";
+        dispatch(formActions.toggleUpdateButton(false));
+      }
+
+      if(event.target.innerText === 'Update Employee') {
+
+        dispatch(formActions.updateNewEmployee(getID))
+        dispatch(formActions.toggleUpdateButton(true));
+      }
     }
   };
+
+  const onChangeButtonHandler = () => {
+    console.log("this is cak")
+        fname.current.value = employeeData.firstName;
+        mname.current.value = employeeData.middleName
+        lname.current.value = employeeData.lastName;
+        email.current.value = employeeData.email;
+        e_id.current.value = employeeData.e_id;
+        bday.current.value = employeeData.bday;
+  }
 
   const fnameValidationChecker = (event) => {
     if (event.target.value === "") {
       setValidatefName(false);
     } else setValidatefName(true);
+
+    fname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
   };
 
   const mnameValidationChecker = (event) => {
     if (event.target.value === "") {
       setvalidatemName(false);
     } else setvalidatemName(true);
+
+    mname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
   };
 
   const lnameValidationChecker = (event) => {
     if (event.target.value === "") {
       setvalidatelName(false);
     } else setvalidatelName(true);
+
+    lname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
   };
 
   const emailValidationChecker = (event) => {
     if (event.target.value === "") {
       setvalidateEmail(false);
     } else setvalidateEmail(true);
+
   };
 
   const enterpriseValidationChecker = (event) => {
     if (event.target.value === "") {
       setvalidateEID(false);
     } else setvalidateEID(true);
+
   };
 
   const birthdayValidationChecker = (event) => {
@@ -128,6 +161,7 @@ const EmployeeForms = () => {
                 <div className="col">
                   <input
                     type="text"
+                    pattern="[A-Za-z]"
                     className={
                       validatefName === false
                         ? "form-control is-invalid"
@@ -235,9 +269,11 @@ const EmployeeForms = () => {
                 <button
                   type="button"
                   onClick={onSaveEmployeeHandler}
+                  ref={button}
+                  onChange={onChangeButtonHandler}
                   className={`${"btn btn-primary"} ${style.buttonSpacing}`}
-                >
-                  Save
+                >{!toggleUpdate && "Save"}
+                  {toggleUpdate && "Update Employee"}
                 </button>
                 <button
                   type="button"
