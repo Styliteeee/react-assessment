@@ -1,30 +1,14 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-// const formSlice = createSlice({
-//     name: 'form_actions',
-//     initialState: {isToggle: false, employeeList: [], updateInfo: []},
-//     reducers: {
-//         toggleFormOn(state, action) {
-//             state.isToggle = action.payload;
-//         },
-//         toggleFormOff(state, action) {
-//             state.isToggle = action.payload;
-//         },
-//         importEmployee(state, action) {
-//             state.employeeList = action.payload;
-//         },
-//         addEmployee(state, action) {
-//             state.employeeList.push(action.payload);
-//         }
-//     }
-// });
-
 const crudSlice = createSlice({
   name: "crud",
   initialState: {
     isToggle: false,
     employeeList: [],
     updateList: [],
+    isError: false,
+    isView: false,
+    noInput: false,
     getID: ""
   },
   reducers: {
@@ -48,10 +32,17 @@ const crudSlice = createSlice({
     },
 
     deleteEmployee: (state, action) => {
-        console.log(state.employeeList);
-      const _employee = state.employeeList.filter(
-        (employee) =>  employee.id !== action.payload.id);
-      return { ...state, employeeList: [..._employee] };
+        void(state.getID = action.payload);
+        console.log(state.getID);
+        return { ...state, employeeList: state.employeeList.splice(state.getID, 1)}
+    },
+
+    viewEmployee: (state, action) => {
+        void(state.updateList = action.payload);
+    },
+
+    viewToggle: (state, action) => {
+        void(state.isView = action.payload)
     },
 
     toggleFormOn: (state, action) => {
@@ -64,6 +55,14 @@ const crudSlice = createSlice({
 
     getIDforUpdate: (state, action) => {
         void(state.getID = action.payload);
+    },
+
+    toggleError: (state, action) => {
+        void(state.isError = action.payload)
+    },
+
+    toggleInputError: (state, action) => {
+        void(state.noInput = action.payload)
     },
   },
 });

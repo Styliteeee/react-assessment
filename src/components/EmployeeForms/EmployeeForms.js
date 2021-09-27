@@ -1,15 +1,16 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useRef } from "react";
 import style from "./EmployeeForms.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { formActions } from "../../store/redux-index";
+import {ErrorModal, ViewEmployee, NoInputErrorModal} from "../UI/ErrorModal/ErrorModal";
 
 const EmployeeForms = () => {
-  const [validatefName, setValidatefName] = useState();
-  const [validatemName, setvalidatemName] = useState();
-  const [validatelName, setvalidatelName] = useState();
-  const [validateEmail, setvalidateEmail] = useState();
-  const [validateBirthday, setvvalidateBirthday] = useState();
-  const [validateEID, setvalidateEID] = useState();
+  const [validatefName, setValidatefName] = useState(true);
+  const [validatemName, setvalidatemName] = useState(true);
+  const [validatelName, setvalidatelName] = useState(true);
+  const [validateEmail, setvalidateEmail] = useState(true);
+  const [validateBirthday, setvvalidateBirthday] = useState(true);
+  const [validateEID, setvalidateEID] = useState(true);
 
   const fname = useRef();
   const mname = useRef();
@@ -19,8 +20,10 @@ const EmployeeForms = () => {
   const email = useRef();
 
   const isToggle = useSelector((state) => state.isToggle);
-  // const updateEmployee = useSelector((state) => state.updateList);
-  // const selectedID = useSelector((state) => state.getID);
+  const isError = useSelector((state) => state.isError);
+  const isView = useSelector((state) => state.isView);
+  const inputError = useSelector((state) =>state.noInput);
+  
   const dispatch = useDispatch();
 
   const onAddNewEmployeeHandler = () => {
@@ -40,7 +43,8 @@ const EmployeeForms = () => {
       bday.current.value === "" ||
       email.current.value === ""
     ) {
-      window.alert("Please provide input to all fields");
+
+      dispatch(formActions.toggleInputError(true))
       return;
     } else {
       dispatch(
@@ -58,7 +62,7 @@ const EmployeeForms = () => {
         })
       );
 
-      window.alert("Employee saved successfully");
+      dispatch(formActions.toggleError(true));
 
       fname.current.value = "";
       mname.current.value = "";
@@ -107,6 +111,9 @@ const EmployeeForms = () => {
 
   return (
     <Fragment>
+      {inputError && <NoInputErrorModal />}
+      {isError && <ErrorModal />}
+      {isView && <ViewEmployee />}
       <div className={`${"d-flex justify-content-center"} ${style.setSpacing}`}>
         <div className={`${"container w-75 p-3"} ${style.changeBackground}`}>
           {isToggle && (
