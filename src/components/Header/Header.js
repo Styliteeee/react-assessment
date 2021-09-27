@@ -5,7 +5,7 @@ const Header = (props) => {
   return (
     <nav className="navbar navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand">
+        <h4 className="navbar-brand">
           <img
             src="https://www.pinclipart.com/picdir/big/190-1906897_new-applied-now-accenture-logo-greater-than-clipart.png"
             alt=""
@@ -16,7 +16,7 @@ const Header = (props) => {
             }`}
           />
           Accenture Workbook
-        </a>
+        </h4>
         <span className="navbar-text">Made by Christian Balondo</span>
       </div>
     </nav>

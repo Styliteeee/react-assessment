@@ -1,21 +1,110 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import style from "./EmployeeForms.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { formActions } from "../../store/redux-index";
 
 const EmployeeForms = () => {
+  const [validatefName, setValidatefName] = useState();
+  const [validatemName, setvalidatemName] = useState();
+  const [validatelName, setvalidatelName] = useState();
+  const [validateEmail, setvalidateEmail] = useState();
+  const [validateBirthday, setvvalidateBirthday] = useState();
+  const [validateEID, setvalidateEID] = useState();
+
+  const fname = useRef();
+  const mname = useRef();
+  const lname = useRef();
+  const e_id = useRef();
+  const bday = useRef();
+  const email = useRef();
+
   const isToggle = useSelector((state) => state.isToggle);
+  // const updateEmployee = useSelector((state) => state.updateList);
+  // const selectedID = useSelector((state) => state.getID);
   const dispatch = useDispatch();
-  
 
   const onAddNewEmployeeHandler = () => {
     dispatch(formActions.toggleFormOn(true));
   };
-  
 
   const onAddCancelEmployeeHandler = () => {
     dispatch(formActions.toggleFormOff(false));
-  }
+  };
+
+  const onSaveEmployeeHandler = () => {
+    if (
+      fname.current.value === "" ||
+      mname.current.value === "" ||
+      lname.current.value === "" ||
+      e_id.current.value === "" ||
+      bday.current.value === "" ||
+      email.current.value === ""
+    ) {
+      window.alert("Please provide input to all fields");
+      return;
+    } else {
+      dispatch(
+        formActions.addNewEmployee({
+          key: Math.random().toString(),
+          id: Math.random().toString(),
+          firstName: fname.current.value,
+          middleName: mname.current.value,
+          lastName: lname.current.value,
+          email: email.current.value,
+          e_id: e_id.current.value,
+          bday: bday.current.value,
+          // id: num,
+          // title: fname.current.value,
+        })
+      );
+
+      window.alert("Employee saved successfully");
+
+      fname.current.value = "";
+      mname.current.value = "";
+      lname.current.value = "";
+      email.current.value = "";
+      e_id.current.value = "";
+      bday.current.value = "";
+    }
+  };
+
+  const fnameValidationChecker = (event) => {
+    if (event.target.value === "") {
+      setValidatefName(false);
+    } else setValidatefName(true);
+  };
+
+  const mnameValidationChecker = (event) => {
+    if (event.target.value === "") {
+      setvalidatemName(false);
+    } else setvalidatemName(true);
+  };
+
+  const lnameValidationChecker = (event) => {
+    if (event.target.value === "") {
+      setvalidatelName(false);
+    } else setvalidatelName(true);
+  };
+
+  const emailValidationChecker = (event) => {
+    if (event.target.value === "") {
+      setvalidateEmail(false);
+    } else setvalidateEmail(true);
+  };
+
+  const enterpriseValidationChecker = (event) => {
+    if (event.target.value === "") {
+      setvalidateEID(false);
+    } else setvalidateEID(true);
+  };
+
+  const birthdayValidationChecker = (event) => {
+    if (event.target.value === "") {
+      setvvalidateBirthday(false);
+    } else setvvalidateBirthday(true);
+  };
+
   return (
     <Fragment>
       <div className={`${"d-flex justify-content-center"} ${style.setSpacing}`}>
@@ -32,17 +121,35 @@ const EmployeeForms = () => {
                 <div className="col">
                   <input
                     type="text"
-                    className="form-control"
+                    className={
+                      validatefName === false
+                        ? "form-control is-invalid"
+                        : "form-control is-valid"
+                    }
                     placeholder="First name"
                     aria-label="First name"
+                    ref={fname}
+                    onChange={fnameValidationChecker}
                   />
+                  <div className="invalid-feedback">
+                    Please enter your first name.
+                  </div>
                 </div>
                 <div className="col">
                   <input
-                    className="form-control"
+                    className={
+                      validatemName === false
+                        ? "form-control is-invalid"
+                        : "form-control is-valid"
+                    }
                     placeholder="Middle name"
                     aria-label="Middle name"
+                    ref={mname}
+                    onChange={mnameValidationChecker}
                   />
+                  <div className="invalid-feedback">
+                    Please enter your middle name.
+                  </div>
                 </div>
               </div>
 
@@ -50,37 +157,77 @@ const EmployeeForms = () => {
                 <div className="col">
                   <input
                     type="text"
-                    className="form-control"
+                    className={
+                      validatelName === false
+                        ? "form-control is-invalid"
+                        : "form-control is-valid"
+                    }
                     placeholder="Last name"
                     aria-label="Last name"
+                    ref={lname}
+                    onChange={lnameValidationChecker}
                   />
+                  <div className="invalid-feedback">
+                    Please enter your last name.
+                  </div>
                 </div>
                 <div className="col">
                   <input
                     type="email"
-                    className="form-control"
+                    className={
+                      validateEmail === false
+                        ? "form-control is-invalid"
+                        : "form-control is-valid"
+                    }
                     placeholder="Email Address"
                     aria-label="Email Address"
+                    ref={email}
+                    onChange={emailValidationChecker}
                   />
+                  <div className="invalid-feedback">
+                    Please enter your email address.
+                  </div>
                 </div>
               </div>
 
               <div className={`${"row"} ${style.rowSpacing}`}>
                 <div className="col">
                   <input
-                    type="text"
-                    className="form-control"
+                    type="number"
+                    className={
+                      validateEID === false
+                        ? "form-control is-invalid"
+                        : "form-control is-valid"
+                    }
                     placeholder="Enterprise ID"
                     aria-label="Enterprise ID"
+                    ref={e_id}
+                    onChange={enterpriseValidationChecker}
                   />
+                  <div className="invalid-feedback">
+                    Please enter your enterprise id.
+                  </div>
                 </div>
                 <div className="col">
-                  <input type="date" className="form-control" />
+                  <input
+                    type="date"
+                    className={
+                      validateBirthday === false
+                        ? "form-control is-invalid"
+                        : "form-control is-valid"
+                    }
+                    ref={bday}
+                    onChange={birthdayValidationChecker}
+                  />
+                  <div className="invalid-feedback">
+                    Please enter your birthday.
+                  </div>
                 </div>
               </div>
               <div className="d-flex justify-content-end">
                 <button
                   type="button"
+                  onClick={onSaveEmployeeHandler}
                   className={`${"btn btn-primary"} ${style.buttonSpacing}`}
                 >
                   Save
