@@ -31,30 +31,30 @@ export const ErrorModal = () => {
 };
 
 export const NoInputErrorModal = () => {
-    const dispatch = useDispatch();
-  
-    const myHandler = () => {
-        dispatch(formActions.toggleInputError(false))
-    };
-    return (
-      <Fragment>
-        <div className={style.backdrop} />
-        <Card className={style.modal}>
-          <header className={style.header}>
-            <h2>Warning!</h2>
-          </header>
-          <div className={style.content}>
-            <p>Please provide input to all fields</p>
-          </div>
-          <footer className={style.actions}>
-            <button className="btn btn-primary" onClick={myHandler}>
-              Okay
-            </button>
-          </footer>
-        </Card>
-      </Fragment>
-    );
+  const dispatch = useDispatch();
+
+  const myHandler = () => {
+    dispatch(formActions.toggleInputError(false));
   };
+  return (
+    <Fragment>
+      <div className={style.backdrop} />
+      <Card className={style.modal}>
+        <header className={style.header}>
+          <h2>Warning!</h2>
+        </header>
+        <div className={style.content}>
+          <p>Please provide input to all fields</p>
+        </div>
+        <footer className={style.actions}>
+          <button className="btn btn-primary" onClick={myHandler}>
+            Okay
+          </button>
+        </footer>
+      </Card>
+    </Fragment>
+  );
+};
 
 export const ViewEmployee = () => {
   const employeeData = useSelector((state) => state.updateList);

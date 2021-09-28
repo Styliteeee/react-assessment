@@ -3,8 +3,10 @@ import style from "./EmployeeList.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { formActions } from "../../store/redux-index";
 
-const EmployeeList = () => {
+const EmployeeList = (props) => {
   const employeeList = useSelector((state) => state.employeeList);
+  const updateEmp = useSelector((state) => state.updateList);
+  
   const isToggle = useSelector((state) => state.isToggle);
   const dispatch = useDispatch();
 
@@ -15,24 +17,23 @@ const EmployeeList = () => {
           return e.id;
         })
         .indexOf(event.target.id);
-      dispatch(formActions.getIDforUpdate(indexNum));
-      dispatch(formActions.toggleUpdateButton(true));
       dispatch(formActions.viewEmployee(employeeList[indexNum]));
     } else {
       window.alert("Open first the form to update!");
     }
+    console.log(updateEmp)
+    console.log(props.Update(updateEmp));
   };
 
   const viewEmployeeDetails = (event) => {
-    const indexNum = employeeList
+    let indexNum = employeeList
       .map((e) => {
         return e.id;
       })
       .indexOf(event.target.id);
 
-      console.log(employeeList)
-    dispatch(formActions.viewToggle(true));
     dispatch(formActions.viewEmployee(employeeList[indexNum]));
+    dispatch(formActions.viewToggle(true));
   };
 
   const deleteHandler = (event) => {

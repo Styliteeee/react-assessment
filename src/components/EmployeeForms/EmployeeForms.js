@@ -2,9 +2,13 @@ import React, { Fragment, useState, useRef } from "react";
 import style from "./EmployeeForms.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { formActions } from "../../store/redux-index";
-import {ErrorModal, ViewEmployee, NoInputErrorModal} from "../UI/ErrorModal/ErrorModal";
+import {
+  ErrorModal,
+  ViewEmployee,
+  NoInputErrorModal,
+} from "../UI/ErrorModal/ErrorModal";
 
-const EmployeeForms = () => {
+const EmployeeForms = (props) => {
   const dispatch = useDispatch();
   const [validatefName, setValidatefName] = useState(true);
   const [validatemName, setvalidatemName] = useState(true);
@@ -12,8 +16,6 @@ const EmployeeForms = () => {
   const [validateEmail, setvalidateEmail] = useState(true);
   const [validateBirthday, setvvalidateBirthday] = useState(true);
   const [validateEID, setvalidateEID] = useState(true);
-  const toggleUpdate = useSelector((state) => state.toggleUpdate);
-
   const fname = useRef();
   const mname = useRef();
   const lname = useRef();
@@ -21,13 +23,13 @@ const EmployeeForms = () => {
   const bday = useRef();
   const email = useRef();
   const button = useRef();
-
+  const toggleUpdate = useSelector((state) => state.toggleUpdate);
   const isToggle = useSelector((state) => state.isToggle);
   const isError = useSelector((state) => state.isError);
   const isView = useSelector((state) => state.isView);
-  const inputError = useSelector((state) =>state.noInput);
-  const getID =useSelector((state) => state.getID);
-  
+  const inputError = useSelector((state) => state.noInput);
+  const getID = useSelector((state) => state.getID);
+
   const onAddNewEmployeeHandler = () => {
     dispatch(formActions.toggleFormOn(true));
   };
@@ -38,20 +40,13 @@ const EmployeeForms = () => {
   };
 
   const onSaveEmployeeHandler = (event) => {
-    if (
-      fname.current.value === "" ||
-      mname.current.value === "" ||
-      lname.current.value === "" ||
-      e_id.current.value === "" ||
-      bday.current.value === "" ||
-      email.current.value === ""
+    if (fname.current.value === "" || mname.current.value === "" ||  lname.current.value === "" || e_id.current.value === "" || bday.current.value === "" || email.current.value === ""
     ) {
-
-      dispatch(formActions.toggleInputError(true))
+      dispatch(formActions.toggleInputError(true));
       return;
     } else {
-      if(event.target.innerText === 'Save') {
-        console.log(bday.current.value)
+      if (event.target.innerText === "Save") {
+        console.log(bday.current.value);
         dispatch(
           formActions.addNewEmployee({
             key: Math.random().toString(),
@@ -62,15 +57,11 @@ const EmployeeForms = () => {
             email: email.current.value,
             e_id: e_id.current.value,
             bday: bday.current.value,
-            // id: num,
-            // title: fname.current.value,
           })
         );
 
-        
-  
         dispatch(formActions.toggleError(true));
-  
+
         fname.current.value = "";
         mname.current.value = "";
         lname.current.value = "";
@@ -81,29 +72,18 @@ const EmployeeForms = () => {
         dispatch(formActions.toggleUpdateButton(false));
       }
 
-      if(event.target.innerText === 'Update Employee') {
-
-        dispatch(formActions.updateNewEmployee(getID))
+      if (event.target.innerText === "Update Employee") {
+        dispatch(formActions.updateNewEmployee(getID));
         dispatch(formActions.toggleUpdateButton(true));
       }
     }
   };
 
-  // const onChangeButtonHandler = () => {
-  //   console.log("this is cak")
-  //       fname.current.value = employeeData.firstName;
-  //       mname.current.value = employeeData.middleName
-  //       lname.current.value = employeeData.lastName;
-  //       email.current.value = employeeData.email;
-  //       e_id.current.value = employeeData.e_id;
-  //       bday.current.value = employeeData.bday;
-  // }
-
   const fnameValidationChecker = (event) => {
     if (event.target.value === "") {
       setValidatefName(false);
     } else setValidatefName(true);
-    fname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
+    fname.current.value = event.target.value.replace(/[^a-zA-Z]/gi, "");
   };
 
   const mnameValidationChecker = (event) => {
@@ -111,7 +91,7 @@ const EmployeeForms = () => {
       setvalidatemName(false);
     } else setvalidatemName(true);
 
-    mname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
+    mname.current.value = event.target.value.replace(/[^a-zA-Z]/gi, "");
   };
 
   const lnameValidationChecker = (event) => {
@@ -119,21 +99,19 @@ const EmployeeForms = () => {
       setvalidatelName(false);
     } else setvalidatelName(true);
 
-    lname.current.value = event.target.value.replace(/[^a-zA-Z]/ig, '');
+    lname.current.value = event.target.value.replace(/[^a-zA-Z]/gi, "");
   };
 
   const emailValidationChecker = (event) => {
     if (event.target.value === "") {
       setvalidateEmail(false);
     } else setvalidateEmail(true);
-
   };
 
   const enterpriseValidationChecker = (event) => {
     if (event.target.value === "") {
       setvalidateEID(false);
     } else setvalidateEID(true);
-
   };
 
   const birthdayValidationChecker = (event) => {
@@ -170,6 +148,7 @@ const EmployeeForms = () => {
                     placeholder="First name"
                     aria-label="First name"
                     ref={fname}
+                    
                     onChange={fnameValidationChecker}
                   />
                   <div className="invalid-feedback">
@@ -271,7 +250,8 @@ const EmployeeForms = () => {
                   onClick={onSaveEmployeeHandler}
                   ref={button}
                   className={`${"btn btn-primary"} ${style.buttonSpacing}`}
-                >{!toggleUpdate && "Save"}
+                >
+                  {!toggleUpdate && "Save"}
                   {toggleUpdate && "Update Employee"}
                 </button>
                 <button
